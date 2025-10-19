@@ -7,7 +7,7 @@ class Event
         this.date = date;
         this.location = location;
         this.description = description;
-        this.contactinformation = this.contactinformation;
+        this.contactinformation = contactinformation;
     
     }
 
