@@ -1,7 +1,7 @@
 
 class Event
 {
-    constructor(name, date, location, description, constactinformation)
+    constructor(name, date, location, description, contactinformation)
     {
         this.name = name;
         this.date = date;
