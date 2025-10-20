@@ -12,7 +12,26 @@ function ReactAdmin()
     const [ events, setEvents] = useState ([]);
     const [ isEditing, setIsEditing] = useState(false);
     const [ editIndex, setEditIndex] = useState(null);
+    const [ admin, setAdmin] = useState(null);
+    const [ isAdminOpen, setIsAdminOpen] = useState (false);
 
+    //admin login
+    function handleAdminLogin()
+    {
+        if(!adminID.trim())
+        {
+            setMessage("Enter an Admin ID");
+            return;
+        }
+
+        const newAdmin = new Admin(adminID);
+        setAdmin(newAdmin);
+        setMessage("Welcome Admin:  " + adminID);
+
+    }
+
+
+    // admin create
     function handleCreateEvent()
     {
         if (!eventName || !eventDate || !location || !contactInformation) 
@@ -28,6 +47,7 @@ function ReactAdmin()
 
     }
 
+    //delete event
     function handleDelete(index)
     {
         const updatedEvents = events.filter((_, i) => i !== index);
@@ -35,6 +55,8 @@ function ReactAdmin()
         setMessage("Event deleted successfully.")
     }
 
+    
+    //edit event
     function handleEdit(index)
     {
         const eventEdit = events[index];
@@ -47,6 +69,7 @@ function ReactAdmin()
 
     }
 
+    // save edited event 
     function handleSave()
     {
         const updatedEvents = [...events];
@@ -55,8 +78,22 @@ function ReactAdmin()
         clearFields();
         setIsEditing(false);
         setEditIndex(null);
+        setMessage("Event updated successfully.")
 
     }
+
+    function openAdminPanel()
+    {
+        if (adminOpen)
+        {
+            setMessage("Enter Admin ID to continue.")
+            return;
+
+        }
+
+        setIsAdminOpen(true);
+    }
+
 
     function clearFields()
     {
@@ -69,6 +106,8 @@ function ReactAdmin()
 
     }
 
+    
+
     return (
 
 
@@ -78,10 +117,12 @@ function ReactAdmin()
 
             padding: "20px",
             border: "2px solid black",
-            width: "300px",
-            margin: "20px auto",
+            width: "340px",
+            margin: "40px auto",
             textAlign: "center",
             borderRadius: "10px"
+
+
 
         }}>
             <h2>Admin Event Manager</h2>
@@ -91,9 +132,21 @@ function ReactAdmin()
                 placeholder = "Admin ID"
                 value = {adminID}
                 onChange = {(e) => setAdminID(e.target.value)}
+                
             />
 
             <br /><br />
+            <button onClick = {handleAdminLogin}>Login</button>
+
+            <div style ={{
+                height: "25px" , marginBottom: "15px"}}></div>
+
+            {message && <p style ={{ color: "blue", margin: 0 }}>{message}</p>} 
+
+            <>
+            
+            
+            </>
 
             <input
                 type = "text"
@@ -162,4 +215,4 @@ function ReactAdmin()
 
 
 }
-export default {ReactAdmin};
+export default ReactAdmin;

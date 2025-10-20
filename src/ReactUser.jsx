@@ -20,10 +20,23 @@ function ReactUser()
 
     function handleLogin()
     {
-        const user = new User(name, email, ID);
-        user.login();
+       if(!name || !email || !ID)
+       {
+        setMessage("Enter all fields.");
+        return;
+       }
+       const user = new Usef(name, email, ID);
+       const success = user.login();
+
+       if (success)
+       {
         setUser(user);
         setMessage("User " + user.getName() + " logged in successfully.");
+
+       } else {
+        setMessage("Login failed. User is not found. Please Register First.");
+       }
+       
     }
 
     return (

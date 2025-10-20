@@ -1,29 +1,55 @@
 import {Event} from "./Event.js";
 
-export
 class Admin
 {
     constructor(adminID)
     {
         this.adminID = adminID;
+        this.events = [];
 
     }
 
     createEvent(eventName, eventDate, location, contactInformation)
     {
-        const event = new Event(Date.now(), eventName, eventDate, location, contactInformation);
+         const event = new Event(Date.now(), eventName, eventDate, location, contactInformation);
+         this.events.push(event);
         console.log("Admin " + this.adminID + " created event: " + event.getName());
         return event;
 
     }
 
-    deleteEvent(eventName)
+    deleteEvent(index)
     {
-        console.log("Admin " + this.adminID + " deleted event: " + eventName);
+        const event = this.events[index];
+       
+        if(event)
+        {
+          
+           console.log("Admin " + this.adminID + " deleted event: " + event.eventName);
+           this.events.splice(index, 1);
+        }
     }
 
-    editEvent(eventName, newDetails)
+    editEvent(index, newDetails)
     {
-        console.log("Admin " + this.adminID + " edited event: " + eventName + " new date: " + newDate + " new location: " + newLocation);
+        const event = this.events[index];
+        if (event)
+        {
+            event.eventName = newDetails.eventName;
+            event.eventDate = newDetails.eventDate;
+            event.location = newDetails.location;
+            event.contactInformation = newDetails.contactInformation;
+            console.log("Event " + event.eventName + " has been updated by Admin " + this.adminID);
+
+        }
+
+       
+    }
+
+    getAllEvents()
+    {
+        return this.events;
     }
 }
+
+export {Admin};
