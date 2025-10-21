@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {Admin} from "./Admin.js";
+import { EventManager } from "./EventManager.js";
 
 function ReactAdmin()
 {
@@ -34,6 +35,11 @@ function ReactAdmin()
     // admin create
     function handleCreateEvent()
     {
+          if (!admin)
+        {
+            setMessage("Login First");
+        }
+
         if (!eventName || !eventDate || !location || !contactInformation) 
         {
             setMessage("Fill in all text");
@@ -42,8 +48,17 @@ function ReactAdmin()
         }
 
         const newEvent = { eventName, eventDate, location, contactInformation };
-        setEvents ([...events, newEvent]);
+       
+        if (!window.events)
+        {
+            window.events = [];
+        }
+
+        window.events.push(newEvent);
+        setEvents([...window.events]);
         clearFields();
+        setMessage("Event Created Successfully.")
+
 
     }
 

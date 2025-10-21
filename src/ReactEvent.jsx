@@ -1,80 +1,79 @@
 
 import { useState } from 'react'
 import { Event} from './Event.js'
+import {eventManager} from './EventManager.js'
 
 function ReactEvent()
 {
-    const [ eventName, setEventName] = useState("");
-    const [ eventDate, setEventDate] = useState("");
-    const [ location, setLocation] = useState("");
-    const [ contactInformation, setContactInformation] = useState("");
-    const [message, setMessage] = useState("");
+ const [events, setEvents] = useState([]);
 
-    function handleNewEvent()
+
+    if (events.length === 0 && window.events && window.events.length > 0)
     {
-        const event = new Event(Date.now(), eventName, eventDate, location, contactInformation);
-           console.log(event.getEventDetails());
-           setMessage("Event " + event.getName() + " created successfully.");
-    
+        const allEvents = [];
+
+        for (let i = 0; i < window.events.length; i++)
+        {
+            const e = window.events[i];
+            const newEvent = new Event(e.eventName, e.eventDate, e.location, e.contactInformation);
+            allEvents.push(newEvent);
+        }
+
+        setEvents(allEvents);
     }
-  
- 
+
     return (
-        <div
-            style ={{
-                padding: "20px",
-                border: "2px solid black",
-                width: "250px",
-                margin: "20px auto",
-                textAlign: "center",
-                borderRadius: "10px"
 
-            }}
+
+        <div style = {{
+
+
+            padding: "20px",
+            border: "2px solid black",
+            width: "330px",
+            margin: " 20px auto",
+            textAlign:  "center",
+            borderRadius: "10px"
+
+        }}
         >
-            <h2>Add New Event</h2>
+            <h2> Upcoming Events </h2>
 
-            <input
-                type = "text"
-                placeholder = "Event Name"
-                value = {eventName}
-                onChange = {(e) => setEventName(e.target.value)}
-                />
 
-                <br /><br />
+            <br />
 
-                <input
-                    type = "text"
-                    placeholder = "Event Date"
-                    value = {eventDate}
-                    onChange = {(e) => setEventDate(e.target.value)}
-                    />
+            {events.length > 0 ? 
+            
+               
+                events.map(function(event, index)
+            
+                {
+                    return <div key = {index}>
 
-                    <br /><br />
+                        <p><b>{event.getName()}</b></p>
+                        <p>{event.getDate()}</p>
+                        <p>{event.getLocation()}</p>
+                        <p>{event.getContactInformation()}</p>
+                        
+                        <hr />
 
-                <input
-                    type = "text"
-                    placeholder = "Location"
-                    value = {location}
-                    onChange = {(e) => setLocation(e.target.value)}
-                    />
+                    </div>
+                        
 
-                    <br /><br />
+                })
+            : 
+                <p> No Events Yet. Come Back Later.</p>
+            } 
+            
 
-                <input 
-                    type = "text"
-                    placeholder = "Contact Information"
-                    value = {contactInformation}
-                    onChange = {(e)  => (setContactInformation(e.target.value))}
-                    />
+        </div>
 
-                    <br /><br />
 
-                <button onClick = {handleNewEvent}>Add Event</button>
-                
-                {message && <p style={{ marginTop: "15px", color: "blue"}}>{message}</p>}
 
-        </div>    
-    );
+
+
+    )
+
 }
 
 export default ReactEvent;
