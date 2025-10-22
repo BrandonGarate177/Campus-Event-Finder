@@ -1,6 +1,11 @@
 import { beforeEach, describe, it, expect } from 'vitest';
 import { EventManager } from '../EventManager.js';
 
+
+/**
+ * Before each test store localStorage with an in-memory object which 
+ * lets us test saving/loading without using the real browser storage.
+ */
 beforeEach(() => {
   const store = {};
   global.localStorage = {
@@ -11,9 +16,18 @@ beforeEach(() => {
   };
 });
 
+
+/**
+ * Tests for the EventManager
+ * This will cover add/list, search, update/remove, and persistence across instances.
+ */
 describe('EventManager', () => {
   it('adds and lists events', () => {
+
+    // create manager using localStorage
     const eventManager = new EventManager({ useLocalStorage: true });
+
+    // add one event using the loose shape
     const e = eventManager.addEventLoose({
       eventName: 'Career Fair',
       eventDate: '10-20-2025',
@@ -21,7 +35,11 @@ describe('EventManager', () => {
       contactInformation: 'career@sdsu.edu',
       description: 'Job Opportunities'
     });
+
+    // check the returned record has an id
     expect(e.id).toBeTruthy();
+
+    // And list shows the normalized fields
     const all = eventManager.listEvents();
     expect(all).toHaveLength(1);
     expect(all[0].name).toBe('Career Fair');
@@ -35,6 +53,8 @@ describe('EventManager', () => {
     const eventManager = new EventManager({ useLocalStorage: true });
     eventManager.addEventLoose({ eventName: 'Hackathon', eventDate: '10-20-2025', location: 'Library', contactInformation: 'hackathon@sdsu.edu' });
     eventManager.addEventLoose({ eventName: 'Concert', eventDate: '10-20-2025', location: 'Viejas Arena', contactInformation: 'concerts@sdsu.edu' });
+    
+    // search for the event and make sure it exists 
     expect(eventManager.searchEvents('Library')).toHaveLength(1);
     expect(eventManager.searchEvents('Concert')).toHaveLength(1);
     expect(eventManager.searchEvents('10-20-2025')).toHaveLength(2);
@@ -49,7 +69,7 @@ describe('EventManager', () => {
     expect(eventManager.getEventById(e.id)).toBeNull();
   });
 
-  it('persists to localStorage', () => {
+  it('persists to localStorage', () => { //make sure the data still exists in the local storage
     const eventManager1 = new EventManager({ useLocalStorage: true });
     eventManager1.addEventLoose({ eventName: 'Career Fair', eventDate: '10-20-2025', location: 'Student Union', contactInformation: 'careers@sdsu.edu' });
 

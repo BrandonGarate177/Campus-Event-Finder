@@ -1,5 +1,10 @@
 import {Event} from "./Event.js";
 
+
+/**
+ * Admin coordinates a local in-memory list of Event objects through an array 
+ * and uses create, delete, edit, getEvent
+ */
 class Admin
 {
     constructor(adminID)

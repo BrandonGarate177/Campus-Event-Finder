@@ -1,4 +1,8 @@
 
+/**
+ * User model used by the ReactUser component.
+ * This is just a data holder with console logs doesn't have any authentication
+ */
 class User
 {
     constructor(name, email, ID)

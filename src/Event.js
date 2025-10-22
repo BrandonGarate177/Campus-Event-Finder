@@ -1,4 +1,7 @@
 
+/**
+ * Simple data class for events.
+ */
 class Event
 {
     constructor(name, date, location, description, contactinformation)

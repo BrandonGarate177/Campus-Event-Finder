@@ -1,9 +1,17 @@
 import { Event } from "./Event.js";
 
-
+//local id for local storage
 const newId = () => String(Date.now() + Math.random());
+
+//trim helper to avoid "text" issues
 const trim = v => (typeof v === "string" ? v.trim() : v);
 
+
+/**
+ * EventManager is an in-browser persistence layer using localStorage.
+ * It normalizes incoming types of data fields so the ui can still pass with a strict
+ * or loose field
+ */
 export class EventManager {
   constructor({ useLocalStorage = true } = {}) {
     this.useLocalStorage = useLocalStorage;
