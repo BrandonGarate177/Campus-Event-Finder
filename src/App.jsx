@@ -1,90 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import ReactUser from './reactUser.jsx'
-import ReactEvent from './ReactEvent.jsx'
-import ReactAdmin from "./ReactAdmin.jsx"
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import ReactUser from './ReactUser.jsx';
+import ReactEvent from './ReactEvent.jsx';
+import ReactAdmin from './ReactAdmin.jsx';
+import './App.css';
 
-function App() {
-
-  const [currentView, setCurrentView] = useState('home');
-
+function Navigation() {
+  const location = useLocation();
   
-
   return (
-    <>
-      
-      <h1> SDSU Campus Event Finder</h1>
-          
-         
-
-
-          {/*home page */}
-          <div style={{
-            marginTop: "20px"
-          }}>
-
-            <button onClick = {() => setCurrentView("home")} >Home</button>
-            <button onClick = {() => setCurrentView("user")} style ={{ marginLeft: "10px" }}> User Registeration</button>
-
-            <button onClick = {() => setCurrentView("event")} style={{ marginLeft: "10px" }} > Event </button>
-            <button onClick = {() => setCurrentView("admin" )} style = {{ marginLeft: "10px"}} > Admin Management</button>
-            </div>
-
-
-
-          
-            {/*page content */}
-
-            <div style = {{ marginTop: "20px" }}> 
-              {currentView === "home" && (
-
-                <p style = {{ marginTop: "20px", fontSize: "16px"}}
-                ></p>
-
-              )}
-
-              {currentView === "user" && (
-                <>
-                <ReactUser /> 
-                <button onClick = {() => setCurrentView("home")} 
-                style = {{ marginTop: "10px"}} >
-                  Back to Home
-                </button>
-                
-                </>
-
-              )}
-
-              {currentView === "event" && (
-
-                <>
-                <ReactEvent />
-                <button onClick = {() => setCurrentView("home")}
-                style = {{ marginTop: "10px"}}>
-                  Back to Home
-                </button>
-                </>
-              )}
-
-              { currentView === "admin" && (
-                <> 
-                <ReactAdmin />
-                <button onClick = {() => setCurrentView("home")}
-                style = {{ marginTop: "10px"}}>
-                  Back to Home
-                </button>
-                
-          
-                </>
-              )}
-          </div>
-    
-    </>
+    <nav className="navbar">
+      <Link to="/" className="navbar-brand">Campus Event Finder</Link>
+      <div className="nav-links">
+        <Link 
+          to="/" 
+          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+        >
+          Home
+        </Link>
+        <Link 
+          to="/user" 
+          className={`nav-link ${location.pathname === '/user' ? 'active' : ''}`}
+        >
+          User Registration
+        </Link>
+        <Link 
+          to="/event" 
+          className={`nav-link ${location.pathname === '/event' ? 'active' : ''}`}
+        >
+          Events
+        </Link>
+        {/* Admin link is hidden from main navigation as requested */}
+      </div>
+    </nav>
   );
 }
 
+function Home() {
+  return (
+    <div className="home-hero">
+      <h2>Welcome to SDSU Campus Event Finder</h2>
+      <p>
+        Discover what's happening on campus. Join events, meet new people, and stay connected with your university community.
+      </p>
+    </div>
+  );
+}
 
+function App() {
+  return (
+    <Router>
+      <div className="app-container">
+        <Navigation />
+        
+        <div className="page-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/user" element={<ReactUser />} />
+            <Route path="/event" element={<ReactEvent />} />
+            <Route path="/admin" element={<ReactAdmin />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
+}
 
 export default App
 
