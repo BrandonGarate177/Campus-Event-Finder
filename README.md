@@ -17,3 +17,15 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 
+
+### In terminal run : 
+
+```
+npm install
+```
+
+then 
+
+```
+npm run dev
+```
