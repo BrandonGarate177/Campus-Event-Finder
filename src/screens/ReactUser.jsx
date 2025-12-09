@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../services/authHandler';
 import '../Auth.css';
+import '../Profile.css';
 
 function ReactUser()
 {
@@ -37,11 +38,50 @@ function ReactUser()
     }
 
     if (user) {
+        const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
+        const initial = displayName[0].toUpperCase();
+
         return (
-            <div className="auth-container">
-                <h2>Welcome, {user.email}</h2>
-                <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
-                {message && <p className="message">{message}</p>}
+            <div className="profile-container">
+                <div className="profile-header">
+                    <div className="profile-avatar">
+                        {initial}
+                    </div>
+                    <div className="profile-info">
+                        <h2>{displayName}</h2>
+                        <p className="profile-email">{user.email}</p>
+                        
+                        <div className="profile-stats">
+                            <div className="stat-item">
+                                <span className="stat-value">0</span>
+                                <span className="stat-label">Events Joined</span>
+                            </div>
+                            <div className="stat-item">
+                                <span className="stat-value">0</span>
+                                <span className="stat-label">Events Created</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button className="logout-btn" onClick={handleLogout}>
+                        Sign Out
+                    </button>
+                </div>
+
+                <div className="profile-content">
+                    <div className="content-section">
+                        <h3>My Upcoming Events</h3>
+                        <div className="empty-state">
+                            <p>You haven't joined any events yet.</p>
+                        </div>
+                    </div>
+
+                    <div className="content-section">
+                        <h3>Account Settings</h3>
+                        <div className="empty-state" style={{ padding: "1.5rem" }}>
+                            <p>Profile settings coming soon.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
