@@ -1,95 +1,99 @@
 import { useState } from 'react'
-import {User} from "../User.js";
+import { useAuth } from '../services/authHandler';
+import '../Auth.css';
 
 function ReactUser()
 {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [ID, setID ] = useState("");
-    const [user, setUser] = useState(null);
+    const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [isLoginMode, setIsLoginMode] = useState(true);
+    
+    const { user, signUp, signIn, signOut } = useAuth();
 
-    function handleRegister()
-    {
-        const user = new User(name, email, ID);
-        user.register();
-        setUser(user);
-        setMessage("User " + user.getName() + " registered successfully.");
+    async function handleAuth() {
+        setMessage("");
+        if (!email || !password) {
+            setMessage("Please enter email and password.");
+            return;
+        }
+
+        if (isLoginMode) {
+            const { error } = await signIn(email, password);
+            if (error) setMessage(error.message);
+            else setMessage("Logged in successfully!");
+        } else {
+            const { error } = await signUp(email, password, name);
+            if (error) setMessage(error.message);
+            else setMessage("Registration successful! Check your email for confirmation.");
+        }
     }
 
-    function handleLogin()
-    {
-       if(!name || !email || !ID)
-       {
-        setMessage("Enter all fields.");
-        return;
-       }
-       const user = new User(name, email, ID); // Fixed typo Usef -> User
-       const success = user.login();
+    async function handleLogout() {
+        const { error } = await signOut();
+        if (error) setMessage(error.message);
+        else setMessage("Logged out successfully.");
+    }
 
-       if (success) // Note: user.login() returns undefined in User.js, so this might fail logic, but keeping structure.
-       {
-        setUser(user);
-        setMessage("User " + user.getName() + " logged in successfully.");
-
-       } else {
-        // This path might always be taken if login() returns nothing.
-        // But keeping original logic mostly intact, just fixing the typo Usef which would crash.
-        setMessage("Login failed. User is not found. Please Register First.");
-       }
-       
+    if (user) {
+        return (
+            <div className="auth-container">
+                <h2>Welcome, {user.email}</h2>
+                <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                {message && <p className="message">{message}</p>}
+            </div>
+        );
     }
 
     return (
-        <div
-            style={{ 
-               padding: "20px", 
-              border: "2px solid black",  
-              width: "330px", 
-              margin: "20px auto",
-              textAlign: "center",
-              borderRadius: "10px"
-            }} 
-        >
+        <div className="auth-container">
 
-            <h2> User Registeration</h2>
+            <h2>{isLoginMode ? "User Login" : "User Registration"}</h2>
 
-            <input
-                type = "text"
-                placeholder = "Name"
-                value = {name}
-                onChange = {(e) => setName(e.target.value)}
-                />
+            {!isLoginMode && (
+                <>
+                    <input
+                        className="auth-input"
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </>
+            )}
 
-                <br /><br />
+            <input 
+                className="auth-input"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
 
-                <input 
-                 type = "email"
-                 placeholder = "Email"
-                 value = {email}
-                 onChange = {(e) => setEmail(e.target.value)}
-                />
+            <input 
+                className="auth-input"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
 
-                <br /><br />
+            <div className="auth-buttons">
+                <button className="btn btn-primary" onClick={handleAuth}>
+                    {isLoginMode ? "Login" : "Register"}
+                </button>
+            </div>
+            
+            <button 
+                onClick={() => setIsLoginMode(!isLoginMode)} 
+                className="toggle-auth-mode"
+            >
+                {isLoginMode ? "Need an account?" : "Already have an account?"}
+            </button>
 
-                <input 
-                 type = "text"
-                 placeholder = "ID"
-                 value = {ID}
-                 onChange = {(e) => setID(e.target.value)}
-                />
-
-                <br /><br />
-
-                <button onClick = {handleRegister}>Register </button>
-                <button onClick = {handleLogin} style={{ marginLeft: "10px"}}>
-                  Login
-                  </button>
-
-                {message && <p style= {{ marginTop: "15px", color: "blue"}}>{message}</p> }
+            {message && <p className="message">{message}</p>}
          </div>
-
-
     );
 }
 export default ReactUser;
