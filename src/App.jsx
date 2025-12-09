@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import ReactUser from './ReactUser.jsx';
-import ReactEvent from './ReactEvent.jsx';
-import ReactAdmin from './ReactAdmin.jsx';
+import ReactUser from './screens/ReactUser.jsx';
+import ReactEvent from './screens/ReactEvent.jsx';
+import ReactAdmin from './screens/ReactAdmin.jsx';
+import Home from './screens/home.jsx';
 import './App.css';
 
 function Navigation() {
@@ -17,32 +18,23 @@ function Navigation() {
         >
           Home
         </Link>
-        <Link 
-          to="/user" 
-          className={`nav-link ${location.pathname === '/user' ? 'active' : ''}`}
-        >
-          User Registration
-        </Link>
+     
         <Link 
           to="/event" 
           className={`nav-link ${location.pathname === '/event' ? 'active' : ''}`}
         >
           Events
         </Link>
+
+        <Link 
+          to="/user" 
+          className={`nav-link ${location.pathname === '/user' ? 'active' : ''}`}
+        >
+          Profile
+        </Link>
         {/* Admin link is hidden from main navigation as requested */}
       </div>
     </nav>
-  );
-}
-
-function Home() {
-  return (
-    <div className="home-hero">
-      <h2>Welcome to SDSU Campus Event Finder</h2>
-      <p>
-        Discover what's happening on campus. Join events, meet new people, and stay connected with your university community.
-      </p>
-    </div>
   );
 }
 

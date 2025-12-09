@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import {Admin} from "./Admin.js";
-import { EventManager } from "./EventManager.js";
+import {Admin} from "../Admin.js";
+import { EventManager } from "../EventManager.js";
 
 function ReactAdmin()
 {
@@ -99,7 +99,7 @@ function ReactAdmin()
 
     function openAdminPanel()
     {
-        if (adminOpen)
+        if (isAdminOpen) 
         {
             setMessage("Enter Admin ID to continue.")
             return;

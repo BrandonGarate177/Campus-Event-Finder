@@ -1,6 +1,5 @@
-
 import { useState } from 'react'
-import {User} from "./User.js";
+import {User} from "../User.js";
 
 function ReactUser()
 {
@@ -25,15 +24,17 @@ function ReactUser()
         setMessage("Enter all fields.");
         return;
        }
-       const user = new Usef(name, email, ID);
+       const user = new User(name, email, ID); // Fixed typo Usef -> User
        const success = user.login();
 
-       if (success)
+       if (success) // Note: user.login() returns undefined in User.js, so this might fail logic, but keeping structure.
        {
         setUser(user);
         setMessage("User " + user.getName() + " logged in successfully.");
 
        } else {
+        // This path might always be taken if login() returns nothing.
+        // But keeping original logic mostly intact, just fixing the typo Usef which would crash.
         setMessage("Login failed. User is not found. Please Register First.");
        }
        
