@@ -125,19 +125,6 @@
 
 .register-btn:hover {
   background-color: var(--sdsu-red);
-  width: 100%;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #646cff;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.register-btn:hover {
-  background-color: #535bf2;
 }
 
 .register-btn.registered {
