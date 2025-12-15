@@ -1,33 +1,35 @@
 .profile-container {
-  max-width: 800px;
-  margin: 2rem auto;
+  max-width: 900px;
+  margin: 3rem auto;
   padding: 3rem;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
 }
 
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
   margin-bottom: 3rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .profile-avatar {
   width: 120px;
   height: 120px;
-  background: linear-gradient(135deg, #A6192E 0%, #8a1022 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--sdsu-red) 0%, var(--sdsu-black) 100%);
+  color: var(--sdsu-white);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(166, 25, 46, 0.3);
+  font-size: 3.5rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-md);
+  border: 4px solid white;
 }
 
 .profile-info {
@@ -36,20 +38,20 @@
 
 .profile-info h2 {
   margin: 0 0 0.5rem 0;
-  color: #2c3e50;
-  font-size: 2rem;
+  color: var(--secondary-color);
+  font-size: 2.5rem;
 }
 
 .profile-email {
   margin: 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.1rem;
 }
 
 .profile-stats {
   display: flex;
-  gap: 2rem;
-  margin-top: 1.5rem;
+  gap: 3rem;
+  margin-top: 2rem;
 }
 
 .stat-item {
@@ -58,46 +60,89 @@
 
 .stat-value {
   display: block;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #A6192E;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--sdsu-red);
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: #888;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  font-weight: 600;
 }
 
 .profile-content {
   display: grid;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .content-section h3 {
-  color: #2c3e50;
+  color: var(--secondary-color);
   margin-bottom: 1.5rem;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
+  border-left: 4px solid var(--sdsu-red);
+  padding-left: 1rem;
 }
 
 .empty-state {
-  background: #f8f9fa;
+  background: var(--background-color);
   padding: 3rem;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   text-align: center;
-  color: #666;
-  border: 2px dashed #e0e0e0;
+  color: var(--text-secondary);
+  border: 2px dashed var(--border-color);
 }
 
 .logout-btn {
   margin-top: 1rem;
   padding: 0.8rem 2rem;
-  background: white;
-  border: 2px solid #A6192E;
-  color: #A6192E;
+  background: transparent;
+  border: 2px solid var(--sdsu-red);
+  color: var(--sdsu-red);
   border-radius: 50px;
   font-weight: 600;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background: var(--sdsu-red);
+  color: white;
+}
+
+.registered-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.registered-event-card {
+  background: var(--background-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.registered-event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--sdsu-red);
+}
+
+.registered-event-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.registered-event-date {
+  color: var(--sdsu-red);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
   cursor: pointer;
   transition: all 0.2s;
 }

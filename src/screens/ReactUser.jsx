@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../services/authHandler';
+import { getMyRegisteredEvents } from '../services/functionHandler';
 import '../Auth.css';
 import '../Profile.css';
 
@@ -10,8 +11,29 @@ function ReactUser()
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [isLoginMode, setIsLoginMode] = useState(true);
+    const [registeredEvents, setRegisteredEvents] = useState([]);
     
     const { user, signUp, signIn, signOut } = useAuth();
+
+    useEffect(() => {
+        if (user) {
+            fetchRegisteredEvents();
+        }
+    }, [user]);
+
+    const fetchRegisteredEvents = async () => {
+        const { data, error } = await getMyRegisteredEvents();
+        if (error) {
+            console.error("Error fetching registered events:", error);
+            return;
+        }
+        
+        if (data) {
+            // Handle both wrapped { events: [...] } and direct array [...] responses
+            const events = data.events || (Array.isArray(data) ? data : []);
+            setRegisteredEvents(events);
+        }
+    };
 
     async function handleAuth() {
         setMessage("");
@@ -53,7 +75,7 @@ function ReactUser()
                         
                         <div className="profile-stats">
                             <div className="stat-item">
-                                <span className="stat-value">0</span>
+                                <span className="stat-value">{registeredEvents.length}</span>
                                 <span className="stat-label">Events Joined</span>
                             </div>
                             <div className="stat-item">
@@ -70,18 +92,32 @@ function ReactUser()
                 <div className="profile-content">
                     <div className="content-section">
                         <h3>My Upcoming Events</h3>
-                        <div className="empty-state">
-                            <p>You haven't joined any events yet.</p>
-                        </div>
-                    </div>
-
-                    <div className="content-section">
-                        <h3>Account Settings</h3>
-                        <div className="empty-state" style={{ padding: "1.5rem" }}>
-                            <p>Profile settings coming soon.</p>
-                        </div>
+                        {registeredEvents.length > 0 ? (
+                            <div className="registered-events-grid">
+                                {registeredEvents.map(event => (
+                                    <div key={event.id} className="registered-event-card">
+                                        <h4>{event.title}</h4>
+                                        <p className="registered-event-date">
+                                            {new Date(event.start_time).toLocaleDateString(undefined, {
+                                                weekday: 'short',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="empty-state">
+                                <p>You haven't joined any events yet.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
+
+
             </div>
         );
     }

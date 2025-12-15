@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {Admin} from "../Admin.js";
 import { EventManager } from "../EventManager.js";
+import './ReactAdmin.css';
 
 function ReactAdmin()
 {
@@ -124,110 +125,80 @@ function ReactAdmin()
     
 
     return (
-
-
-        <div
-
-        style={{
-
-            padding: "20px",
-            border: "2px solid black",
-            width: "340px",
-            margin: "40px auto",
-            textAlign: "center",
-            borderRadius: "10px"
-
-
-
-        }}>
+        <div className="admin-container">
             <h2>Admin Event Manager</h2>
 
             <input 
+                className="admin-input"
                 type = "text"
                 placeholder = "Admin ID"
                 value = {adminID}
                 onChange = {(e) => setAdminID(e.target.value)}
-                
             />
 
-            <br /><br />
-            <button onClick = {handleAdminLogin}>Login</button>
+            <button className="admin-btn" onClick = {handleAdminLogin}>Login</button>
 
-            <div style ={{
-                height: "25px" , marginBottom: "15px"}}></div>
-
-            {message && <p style ={{ color: "blue", margin: 0 }}>{message}</p>} 
-
-            <>
-            
-            
-            </>
+            {message && <p className="admin-message">{message}</p>} 
 
             <input
+                className="admin-input"
                 type = "text"
                 placeholder = "Event Name"
                 value = {eventName}
                 onChange = {(e) => setEventName(e.target.value)}
             />
 
-            <br /><br />
-
             <input
-
+                className="admin-input"
                 type = "text"
                 placeholder = "Event Date"
                 value = {eventDate}
                 onChange = {(e) => setEventDate(e.target.value)}
             />
 
-
-            <br /><br />
-
             <input
+                className="admin-input"
                 type = "text"
                 placeholder = "Location"
                 value = {location}
                 onChange = {(e) => setLocation(e.target.value)}
             />
 
-            <br /><br />
-
             <input
+                className="admin-input"
                 type = "text"
                 placeholder = "Contact Information"
                 value = {contactInformation}
                 onChange = {(e) => setContactInformation(e.target.value)}
             />
 
-            <br /><br />
-
             {!isEditing  ?(
-                <button onClick = {handleCreateEvent}>Create Event</button>
+                <button className="admin-btn" onClick = {handleCreateEvent}>Create Event</button>
             ) : (
-                <button onClick = {handleSave} > Save Changes</button>
+                <button className="admin-btn" onClick = {handleSave} > Save Changes</button>
             )}
 
             
-            <hr />
+            <hr style={{ margin: "2rem 0", border: "none", borderTop: "1px solid var(--border-color)" }} />
 
             {events.map(( event, index) => (
 
-                <div key = {index} style = {{ marginBottom: "10px", border: "1px solid gray", padding: "10px"}}>
+                <div key = {index} className="event-item">
 
                 <strong> {event.eventName}</strong>
                 <p> Date: {event.eventDate} </p>
                 <p> Location: {event.location} </p>
                 <p> Contact Information: {event.contactInformation} </p>
                     
-                <button onClick = {() => handleEdit (index)} style = {{ marginRight: "10px"}}> Edit </button>
-                <button onClick = {() => handleDelete (index)}> Delete </button>
+                <div className="event-actions">
+                    <button className="admin-btn edit-btn" onClick = {() => handleEdit (index)}> Edit </button>
+                    <button className="admin-btn delete-btn" onClick = {() => handleDelete (index)}> Delete </button>
+                </div>
                 </div>
 
             ))}
 
         </div>
     );
-
-
 }
 export default ReactAdmin;
